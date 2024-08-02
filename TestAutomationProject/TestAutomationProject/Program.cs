@@ -5,6 +5,9 @@ public class Program
 {
     private static void Main(string[] args)
     {
+
+        // ## Step 1: Login to the application
+
         // Open the browser (Chrome)
         IWebDriver driver = new ChromeDriver();
 
@@ -30,6 +33,8 @@ public class Program
         // Click the login button
         loginButton.Click();
 
+        // ## Step 2: Verify that the user has successfully logged in
+
         // Verify that the user has successfully logged in
         IWebElement userGreeting = driver.FindElement(By.XPath("//*[@id=\"logoutForm\"]/ul/li/a"));
 
@@ -42,7 +47,7 @@ public class Program
             Console.WriteLine("User has not successfully logged in. Test Failed");
         }       
         
-        // Create a Time Record
+        // ## Step 3: Navigate to the Time and Material page
 
         // Navigate to the Time and Material page
 
@@ -57,6 +62,8 @@ public class Program
 
         // Click the Time & Materials option
         timeAndMaterialsOption.Click();
+
+        // ## Step 4: Create a new Time Record
 
         // Identify the Create New button
         IWebElement createNewButton = driver.FindElement(By.XPath("//*[@id=\"container\"]/p/a"));
@@ -105,6 +112,8 @@ public class Program
 
         // Click the Save button
         saveButton.Click();
+        
+        // ## Step 5: Verify that the Time Record has been created
 
         // Verify that the Time Record has been created
 
@@ -132,5 +141,140 @@ public class Program
         {
             Console.WriteLine("Time Record has not been created. Test Failed");
         }
+
+        // ## Step 6: Edit a Time Record
+
+        // Identify the last page button
+        lastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
+
+        // Click the last page button
+        lastPageButton.Click();
+
+        // Identify the last record Edit button
+        IWebElement lastRecordEditButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[1]"));
+
+        // Click the last record Edit button
+        lastRecordEditButton.Click();
+
+        // Identify the Code field
+        IWebElement toBeEditedCodeField = driver.FindElement(By.Id("Code"));
+
+        // Clear the Code field
+        toBeEditedCodeField.Clear();
+
+        // Type code in the Code field
+        toBeEditedCodeField.SendKeys("Edited Test Code");
+
+        // Identify the Description field
+        IWebElement toBeEditedDescriptionField = driver.FindElement(By.Id("Description"));
+
+        // Clear the Description field
+        toBeEditedDescriptionField.Clear();
+
+        // Type description in the Description field
+        toBeEditedDescriptionField.SendKeys("Edited Test Description");
+
+        // Identify the Price per unit field (Overlap)
+        IWebElement toBeEditedPricePerUnitFieldOverlap = driver.FindElement(By.XPath("//*[@id=\"TimeMaterialEditForm\"]/div/div[4]/div/span[1]/span/input[1]"));
+
+        // Click the Price per unit field
+        toBeEditedPricePerUnitFieldOverlap.Click();
+
+        // Identify the Price per unit field
+        IWebElement toBeEditedPricePerUnitField = driver.FindElement(By.XPath("//*[@id=\"Price\"]"));
+
+        // Clear the Price per unit field
+        toBeEditedPricePerUnitField.Clear();
+
+        // Identify the Price per unit field (Overlap)
+        toBeEditedPricePerUnitFieldOverlap = driver.FindElement(By.XPath("//*[@id=\"TimeMaterialEditForm\"]/div/div[4]/div/span[1]/span/input[1]"));
+
+        // Click the Price per unit field
+        toBeEditedPricePerUnitFieldOverlap.Click();
+
+        // Type price in the Price per unit field
+        toBeEditedPricePerUnitField.SendKeys("200");
+
+        // Īdentify the Save button
+        saveButton = driver.FindElement(By.Id("SaveButton"));
+
+        // Click the Save button
+        saveButton.Click();
+
+        // ## Step 7: Verify that the Time Record has been edited
+
+        // Verify that the Time Record has been edited
+
+        // Wait for 1 second
+        Thread.Sleep(1000);
+
+        // Identify the last page button
+        lastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
+
+        // Click the last page button
+        lastPageButton.Click();
+
+        // Identify the last record
+        lastRecordCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+        lastRecordDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
+        lastRecordPricePerUnit = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[4]"));
+
+        if (lastRecordCode.Text == "Edited Test Code"
+            && lastRecordDescription.Text == "Edited Test Description"
+            && lastRecordPricePerUnit.Text == "$200.00")
+        {
+            Console.WriteLine("Time Record has been edited. Test Passed");
+        }
+        else
+        {
+            Console.WriteLine("Time Record has not been edited. Test Failed");
+        }
+
+        // ## Step 8: Delete a Time Record
+
+        // Identify the last page button
+        lastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
+
+        // Click the last page button
+        lastPageButton.Click();
+
+        // Identify the last record Delete button
+        IWebElement lastRecordDeleteButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[5]/a[2]"));
+
+        // Click the last record Edit button
+        lastRecordDeleteButton.Click();
+
+        // Switch to the alert
+        driver.SwitchTo().Alert().Accept();
+        
+        // ## Step 9: Verify that the Time Record has been deleted
+
+        // Verify that the Time Record has been deleted
+
+        // Wait for 1 second
+        Thread.Sleep(1000);
+
+        // Identify the last page button
+        lastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
+
+        // Click the last page button
+        lastPageButton.Click();
+
+        // Identify the last record
+        lastRecordCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+        lastRecordDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
+        lastRecordPricePerUnit = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[4]"));
+
+        if (lastRecordCode.Text != "Edited Test Code"
+            || lastRecordDescription.Text != "Edited Test Description"
+            || lastRecordPricePerUnit.Text != "$200.00")
+        {
+            Console.WriteLine("Time Record has been deleted. Test Passed");
+        }
+        else
+        {
+            Console.WriteLine("Time Record has not been deleted. Test Failed");
+        }
+
     }
 }
