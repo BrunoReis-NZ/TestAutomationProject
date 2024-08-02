@@ -40,7 +40,97 @@ public class Program
         else
         {
             Console.WriteLine("User has not successfully logged in. Test Failed");
-        }        
+        }       
+        
+        // Create a Time Record
 
+        // Navigate to the Time and Material page
+
+        // Identify the Administration tab
+        IWebElement administrationTab = driver.FindElement(By.XPath("/html/body/div[3]/div/div/ul/li[5]/a"));
+
+        // Click the Administration tab
+        administrationTab.Click();
+
+        // Identify the Time & Materials option
+        IWebElement timeAndMaterialsOption = driver.FindElement(By.XPath("/html/body/div[3]/div/div/ul/li[5]/ul/li[3]/a"));
+
+        // Click the Time & Materials option
+        timeAndMaterialsOption.Click();
+
+        // Identify the Create New button
+        IWebElement createNewButton = driver.FindElement(By.XPath("//*[@id=\"container\"]/p/a"));
+
+        // Click the Create New button
+        createNewButton.Click();
+
+        // Identify the TypeCode dropdown
+        IWebElement typeCodeDropdown = driver.FindElement(By.XPath("//*[@id=\"TimeMaterialEditForm\"]/div/div[1]/div/span[1]/span/span[2]/span"));
+
+        // Click the TypeCode dropdown
+        typeCodeDropdown.Click();
+
+        // Select Time from the dropdown
+        IWebElement timeOption = driver.FindElement(By.XPath("//*[@id=\"TimeMaterialEditForm\"]/div/div[1]/div/span[1]/span/span[1]"));
+
+        // Click the Time option
+        timeOption.Click();
+
+        // Identify the Code field
+        IWebElement codeField = driver.FindElement(By.Id("Code"));
+
+        // Type code in the Code field
+        codeField.SendKeys("Test Code");
+
+        // Identify the Description field
+        IWebElement descriptionField = driver.FindElement(By.Id("Description"));
+
+        // Type description in the Description field
+        descriptionField.SendKeys("Test Description");
+
+        // Identify the Price per unit field (Overlap)
+        IWebElement pricePerUnitFieldOverlap = driver.FindElement(By.XPath("//*[@id=\"TimeMaterialEditForm\"]/div/div[4]/div/span[1]/span/input[1]"));
+
+        // Click the Price per unit field
+        pricePerUnitFieldOverlap.Click();
+
+        // Identify the Price per unit field
+        IWebElement pricePerUnitField = driver.FindElement(By.XPath("//*[@id=\"Price\"]"));
+
+        // Type price in the Price per unit field
+        pricePerUnitField.SendKeys("100");
+
+        // Īdentify the Save button
+        IWebElement saveButton = driver.FindElement(By.Id("SaveButton"));
+
+        // Click the Save button
+        saveButton.Click();
+
+        // Verify that the Time Record has been created
+
+        // Wait for 1 second
+        Thread.Sleep(1000);
+
+        // Identify the last page button
+        IWebElement lastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
+
+        // Click the last page button
+        lastPageButton.Click();
+
+        // Identify the last record
+        IWebElement lastRecordCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+        IWebElement lastRecordDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
+        IWebElement lastRecordPricePerUnit = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[4]"));
+
+        if (lastRecordCode.Text == "Test Code" 
+            && lastRecordDescription.Text == "Test Description" 
+            && lastRecordPricePerUnit.Text == "$100.00")
+        {
+            Console.WriteLine("Time Record has been created. Test Passed");
+        }
+        else
+        {
+            Console.WriteLine("Time Record has not been created. Test Failed");
+        }
     }
 }
