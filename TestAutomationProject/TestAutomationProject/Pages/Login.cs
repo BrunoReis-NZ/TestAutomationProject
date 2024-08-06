@@ -17,6 +17,9 @@ namespace TestAutomationProject.Pages
 
         public void LoginSteps(IWebDriver driver)
         {
+            // Wait for 10 seconds
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
             // Navigate to the URL
             driver.Navigate().GoToUrl(baseURL);
 

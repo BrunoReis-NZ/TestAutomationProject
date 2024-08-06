@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,18 @@ namespace TestAutomationProject.Pages
     {
         public void OpenCreatePage(IWebDriver driver)
         {
-            // Identify the Create New button
-            IWebElement createNewButton = driver.FindElement(By.XPath("//*[@id=\"container\"]/p/a"));
-
-            // Click the Create New button
-            createNewButton.Click();
-
-        }
-        
+            try
+            {
+                // Identify the Create New button
+                IWebElement createNewButton = driver.FindElement(By.XPath("//*[@id=\"container\"]/p/a"));
+                
+                // Click the Create New button
+                createNewButton.Click();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("Create New button not found");
+            }
+        }        
     }
 }

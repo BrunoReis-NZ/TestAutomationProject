@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +47,6 @@ namespace TestAutomationProject.Panel
 
             // Click the Save button
             saveButton.Click();
-
         }
 
         public void CreateTimeRecord (IWebDriver driver)
@@ -93,15 +94,11 @@ namespace TestAutomationProject.Panel
 
             // Click the Save button
             saveButton.Click();
-
-            // Wait for 1 second
-            Thread.Sleep(1000);
         }
 
         public void VerifyIfRecordWasCreatedSuccessfully(IWebDriver driver)
         {
-            // Wait for 10 seconds
-            Wait.WaitToBeClickable(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[4]/a[4]/span", 10);
+            Thread.Sleep(2000);
 
             // Identify the last page button
             IWebElement lastPageButton = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[4]/a[4]/span"));
@@ -109,24 +106,17 @@ namespace TestAutomationProject.Panel
             // Click the last page button
             lastPageButton.Click();
 
-            // Wait for 10 seconds
-            Wait.WaitToBeVisible(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]", 10);
+            // Wait for 5 seconds
+            Wait.WaitToBeVisible(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]", 5);
 
             // Identify the last record
             IWebElement lastRecordCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
             IWebElement lastRecordDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
             IWebElement lastRecordPrice = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[4]"));
 
-            if (lastRecordCode.Text == code
-                && lastRecordDescription.Text == description
-                && lastRecordPrice.Text == "$" + price + ".00")
-            {
-                Console.WriteLine("Record has been created. Test Passed");
-            }
-            else
-            {
-                Console.WriteLine("Record has not been created. Test Failed");
-            }
+            Assert.That(lastRecordCode.Text == code, "Record has not been created. Test Failed");
+            Assert.That(lastRecordDescription.Text == description, "Record has not been created. Test Failed");
+            Assert.That(lastRecordPrice.Text == "$" + price + ".00", "Record has not been created. Test Failed");
         }
             
     }
