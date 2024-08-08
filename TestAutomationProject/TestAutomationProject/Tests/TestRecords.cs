@@ -31,7 +31,6 @@ namespace TestAutomationProject.Tests
             Home home = new();
 
             // Home page object methods call
-            //home.VerifyIfUserLoggedIn(driver);
             home.NavigateToTimeAndMaterialPage(driver);
         }
 

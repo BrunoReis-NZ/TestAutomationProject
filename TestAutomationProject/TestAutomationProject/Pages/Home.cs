@@ -10,27 +10,6 @@ namespace TestAutomationProject.Pages
 {
     public class Home
     {
-        //public void VerifyIfUserLoggedIn(IWebDriver driver)
-        //{
-        //    // Wait for 10 seconds
-        //    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-
-        //    // Identify the user greeting element
-        //    IWebElement userGreeting = driver.FindElement(By.XPath("//*[@id=\"logoutForm\"]/ul/li/a"));
-
-        //    // Verify if userGreeting is equal to "Hello UserName!"
-
-        //    if (userGreeting.Text == "Hello hari!")
-        //    {
-        //        Console.WriteLine("User has successfully logged in. Test Passed");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("User has not successfully logged in. Test Failed");
-        //    }
-
-        //}
-
         public void NavigateToTimeAndMaterialPage(IWebDriver driver)
         {
             // Wait for 10 seconds
