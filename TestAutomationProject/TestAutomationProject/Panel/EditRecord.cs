@@ -13,11 +13,7 @@ namespace TestAutomationProject.Panel
 {
     public class EditRecord
     {
-        String editedCode = "TestEditedCode";
-        String editedDescription = "TestEditedDescription";
-        String editedPrice = "200";
-
-        public void editRecord(IWebDriver driver)
+        public void editRecord(IWebDriver driver, String editedCode, String editedDescription, String editedPrice)
         {
             Thread.Sleep(2000);
 
@@ -79,7 +75,7 @@ namespace TestAutomationProject.Panel
             saveButton.Click();
         }
 
-        public void verifyIfRecordWasEditedSuccessfully(IWebDriver driver)
+        public void verifyIfRecordWasEditedSuccessfully(IWebDriver driver, string editedCode, string editedDescription, string editedPrice)
         {
             Thread.Sleep(3000);
 
@@ -92,14 +88,36 @@ namespace TestAutomationProject.Panel
             // Wait for 10 seconds
             Wait.WaitToBeVisible(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]", 10);
 
-            // Identify the last record
-            IWebElement lastRecordCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-            IWebElement lastRecordDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
-            IWebElement lastRecordPrice = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[4]"));
-
-            Assert.That(lastRecordCode.Text == editedCode, "Record has not been edited. Test Failed");
-            Assert.That(lastRecordDescription.Text == editedDescription, "Record has not been edited. Test Failed");
-            Assert.That(lastRecordPrice.Text == "$" + editedPrice + ".00", "Record has not been edited. Test Failed");
+            // Verify if the record was edited successfully
+            VerifyEditedCodeDescriptionAndPrice(driver, editedCode, editedDescription, editedPrice);
+            
         }
+
+        public void VerifyEditedCodeDescriptionAndPrice (IWebDriver driver, string editedCode, string editedDescription, string editedPrice)
+        {
+            Assert.That(GetLastRecordEditedCode(driver) == editedCode, "Actual code is not equal to expected code");
+            Assert.That(GetLastRecordEditedDescription(driver) == editedDescription, "Actual description is not equal to expected description");
+            Assert.That(GetLastRecordEditedPrice(driver) == editedPrice, "Actual price is not equal to expected price");
+        }
+
+        public string GetLastRecordEditedCode(IWebDriver driver)
+        {
+            IWebElement lastRecordCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            return lastRecordCode.Text;
+        }
+
+        public string GetLastRecordEditedDescription(IWebDriver driver)
+        {
+            IWebElement lastRecordDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
+            return lastRecordDescription.Text;
+        }
+
+        public string GetLastRecordEditedPrice(IWebDriver driver)
+        {
+            IWebElement lastRecordPrice = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[4]"));
+            return lastRecordPrice.Text;
+        }
+
+        
     }
 }

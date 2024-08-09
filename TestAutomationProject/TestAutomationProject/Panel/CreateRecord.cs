@@ -14,7 +14,7 @@ namespace TestAutomationProject.Panel
     {
         String code = "TestCode";
         String description = "TestDescription";
-        String price = "100";
+        String price = "$100.00";
 
         public void CreateMaterialRecord (IWebDriver driver)
         {
@@ -109,15 +109,34 @@ namespace TestAutomationProject.Panel
             // Wait for 5 seconds
             Wait.WaitToBeVisible(driver, "XPath", "//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]", 5);
 
-            // Identify the last record
-            IWebElement lastRecordCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-            IWebElement lastRecordDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
-            IWebElement lastRecordPrice = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[4]"));
+            // Verify if the record was created successfully
+            VerifyCodeDescriptionAndPrice(driver, code, description, price);
+        }        
 
-            Assert.That(lastRecordCode.Text == code, "Record has not been created. Test Failed");
-            Assert.That(lastRecordDescription.Text == description, "Record has not been created. Test Failed");
-            Assert.That(lastRecordPrice.Text == "$" + price + ".00", "Record has not been created. Test Failed");
+        public void VerifyCodeDescriptionAndPrice(IWebDriver driver, string code, string description, string price)
+        {
+            Assert.That(GetLastRecordCode(driver) == code, "Actual code is not equal to expected code");
+            Assert.That(GetLastRecordDescription(driver) == description, "Actual description is not equal to expected description");
+            Assert.That(GetLastRecordPrice(driver) == price, "Actual price is not equal to expected price");
         }
-            
+
+        public string GetLastRecordCode(IWebDriver driver)
+        {
+            IWebElement lastRecordCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            return lastRecordCode.Text;
+        }
+
+        public string GetLastRecordDescription(IWebDriver driver)
+        {
+            IWebElement lastRecordDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
+            return lastRecordDescription.Text;
+        }
+
+        public string GetLastRecordPrice(IWebDriver driver)
+        {
+            IWebElement lastRecordPrice = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[4]"));
+            return lastRecordPrice.Text;
+        }
+
     }
 }

@@ -1,20 +1,16 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TestAutomationProject.Utilities;
+using System;
+
 
 namespace TestAutomationProject.Panel
 {
     public class DeleteRecord
     {
-        String editedCode = "TestEditedCode";
-        String editedDescription = "TestEditedDescription";
-        String editedPrice = "200";
+        String editedCode = "TestEditedCode3";
+        String editedDescription = "TestEditedDescription3";
+        String editedPrice = "$400.00";
        
         public void deleteRecord(IWebDriver driver)
         {
@@ -49,14 +45,36 @@ namespace TestAutomationProject.Panel
             // Click the last page button
             lastPageButton.Click();
 
-            // Identify the last record Code field
-            IWebElement lastRecordCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
-            IWebElement lastRecordDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
-            IWebElement lastRecordPrice = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[4]"));
-
-            Assert.That(lastRecordCode.Text != editedCode, "Record has not been deleted. Test Failed");
-            Assert.That(lastRecordDescription.Text != editedDescription, "Record has not been deleted. Test Failed");
-            Assert.That(lastRecordPrice.Text != editedPrice, "Record has not been deleted. Test Failed");
+            // Verify if the record was edited successfully
+            VerifyDeletedCodeDescriptionAndPrice(driver, editedCode, editedDescription, editedPrice);
         }
+
+        public void VerifyDeletedCodeDescriptionAndPrice(IWebDriver driver, string editedCode, string editedDescription, string editedPrice)
+        {
+            Assert.That(GetLastRecordDeletedCode(driver) != editedCode, "Actual code is not equal to expected code");
+            Assert.That(GetLastRecordDeletedDescription(driver) != editedDescription, "Actual description is not equal to expected description");
+            Assert.That(GetLastRecordDeletedPrice(driver) != editedPrice, "Actual price is not equal to expected price");
+        }
+
+        public string GetLastRecordDeletedCode(IWebDriver driver)
+        {
+            IWebElement lastRecordCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
+            return lastRecordCode.Text;
+        }
+
+        public string GetLastRecordDeletedDescription(IWebDriver driver)
+        {
+            IWebElement lastRecordDescription = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[3]"));
+            return lastRecordDescription.Text;
+        }
+
+        public string GetLastRecordDeletedPrice(IWebDriver driver)
+        {
+            IWebElement lastRecordPrice = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[4]"));
+            return lastRecordPrice.Text;
+        }
+
+
+
     }
 }

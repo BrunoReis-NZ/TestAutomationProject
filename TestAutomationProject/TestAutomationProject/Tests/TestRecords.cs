@@ -48,18 +48,22 @@ namespace TestAutomationProject.Tests
 
             // CreateRecord page object methods call
             createRecord.CreateTimeRecord(driver);
+
+            // Verify if the record was created successfully
             createRecord.VerifyIfRecordWasCreatedSuccessfully(driver);
         }
 
         [Test, Order(2)]
-        public void EditRecordTest()
+        public void EditRecordTest(string editedCode, string editedDescription, string editedPrice)
         {
             // EditRecord page object initialization and definition
             EditRecord editRecord = new();
 
             // EditRecord page object methods call
-            editRecord.editRecord(driver);
-            editRecord.verifyIfRecordWasEditedSuccessfully(driver);
+            editRecord.editRecord(driver, editedCode, editedDescription, editedPrice);
+
+            // Verify if the record was edited successfully
+            editRecord.verifyIfRecordWasEditedSuccessfully(driver, editedCode, editedDescription, editedPrice);
         }
 
         [Test, Order(3)]
@@ -70,6 +74,8 @@ namespace TestAutomationProject.Tests
 
             // DeleteRecord page object method call
             deleteRecord.deleteRecord(driver);
+
+            // Verify if the record was deleted successfully
             deleteRecord.verifyIfRecordWasDeletedSuccessfully(driver);
         }
 
